@@ -4,41 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Presupuesto Personal</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Mi Presupuesto Personal</h1>
+    <main role="main" class="container">
+        <h1>Gestor de Presupuesto Personal</h1>
 
-        <div class="form-container">
-            <h2>Nueva Transacción</h2>
-            <form id="transactionForm">
+        <!-- Balance Card -->
+        <section id="balance-container" class="card">
+            <h2>Balance Total</h2>
+            <div id="balance-display" class="balance-display">
+                <span id="balance-amount" class="balance-amount">0.00</span>
+            </div>
+        </section>
+
+        <!-- Formulario -->
+        <section aria-labelledby="form-title" class="card">
+            <h2 id="form-title">Nueva Transacción</h2>
+            <form id="transaction-form" role="form" aria-label="Formulario de registro de transacción">
                 <div class="form-group">
-                    <label for="monto">Monto ($):</label>
-                    <input type="number" id="monto" required min="0" step="0.01">
-                    <span class="error-message" id="montoError"></span>
+                    <label for="monto">Monto:</label>
+                    <input 
+                        type="number" 
+                        id="monto" 
+                        name="monto"
+                        aria-required="true"
+                        aria-describedby="monto-help"
+                        step="0.01"
+                        required
+                    >
+                    <small id="monto-help">Ingresa un valor numérico positivo</small>
                 </div>
                 
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
-                    <select id="tipo" required>
+                    <select 
+                        id="tipo" 
+                        name="tipo"
+                        aria-required="true"
+                        required
+                    >
                         <option value="ingreso">Ingreso</option>
                         <option value="gasto">Gasto</option>
                     </select>
                 </div>
 
-                <button type="submit">Agregar Transacción</button>
+                <button type="submit" class="btn btn-primary">Registrar</button>
             </form>
-        </div>
+        </section>
 
-        <div class="transactions-container">
-            <h2>Historial de Transacciones</h2>
-            <div class="sort-controls">
-                <button id="sortAmount">Ordenar por Monto</button>
-            </div>
-            <ul id="transactionList"></ul>
-        </div>
-    </div>
-    <script src="app.js"></script>
+        <!-- Lista de Transacciones -->
+        <section aria-labelledby="transactions-title" class="card">
+            <h2 id="transactions-title">Historial de Transacciones</h2>
+            <ul id="transactions-list" role="list" class="transactions-list">
+                <!-- Las transacciones se agregarán dinámicamente -->
+            </ul>
+        </section>
+    </main>
+
+    <script src="js/validators.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
