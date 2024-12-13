@@ -1,22 +1,51 @@
-const montoInput = document.getElementById("monto")
-const tipoValue = document.getElementById("tipo").value
-const form = document.getElementById("transactionForm")
-// Vamos a crear un array (Arreglo)
-const data = []
+// Arreglo para almacenar las transacciones
+let transacciones = [];
 
+// Elementos del DOM
+const form = document.getElementById("transactionForm");
+const lista = document.getElementById("transactionList");
+const balanceElement = document.getElementById("balance");
+const montoInput = document.getElementById("monto");
 
-form.addEventListener("submit", (e)=> {
-   e.preventDefault()
+// Actualiza el balance y la lista de transacciones
+function actualizarUI() {
+   // Calcular balance
+   const balance = transacciones.reduce((total, t) =>
+      t.tipo === "ingreso" ? total + t.monto : total - t.monto, 0
+   );
+   balanceElement.textContent = `$${balance.toFixed(2)}`;
 
-   const montoValue = montoInput.value
+   transacciones.forEach((transaccion) => {
+      // Crear el elemento de la lista
+      const li = document.createElement("li");
+      li.className = `transaction-item ${transaccion.tipo}`;
+      li.innerHTML = `
+		<span>${transaccion.fecha.toLocaleDateString()}</span>
+		<span>${transaccion.tipo === "ingreso" ? "+" : "-"}$${transaccion.monto.toFixed(2)}</span>
+	`;
+      lista.appendChild(li);
+   });
+}
 
-   validadorMonto(montoValue)
-   // data.push({
-   //    tipo: tipoValue,
-   //    monto: parseFloat(montoValue),
-   //    fecha: new Date( Date.now())
-   // })
+// Registrar una nueva transacción
+form.addEventListener("submit", (e) => {
+   e.preventDefault();
 
-   // console.log(data)   
+   const monto = parseFloat(montoInput.value);
+   const tipo = document.getElementById("tipo").value;
 
-})
+   // Validar monto
+   if (isNaN(monto) || monto <= 0) {
+      alert("Por favor ingrese un monto válido mayor a 0");
+      return;
+   }
+   // Agregar transacción y actualizar UI
+   transacciones.push({
+      tipo,
+      monto,
+      fecha: new Date()
+   });
+   actualizarUI();
+   form.reset(); // Limpiar formulario
+});
+

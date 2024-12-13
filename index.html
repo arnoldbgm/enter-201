@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Presupuesto Personal</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Mi Presupuesto Personal</h1>
+
+        <div class="balance-card">
+            <h2>Balance Total:</h2>
+            <p id="balance">$0.00</p>
+        </div>
 
         <div class="form-container">
             <h2>Nueva Transacción</h2>
             <form id="transactionForm">
                 <div class="form-group">
                     <label for="monto">Monto ($):</label>
-                    <input type="number" id="monto" required min="0" step="0.01">
-                    <span class="error-message" id="montoError"></span>
+                    <input type="number" id="monto" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
                     <select id="tipo" required>
@@ -33,13 +39,10 @@
 
         <div class="transactions-container">
             <h2>Historial de Transacciones</h2>
-            <div class="sort-controls">
-                <button id="sortAmount">Ordenar por Monto</button>
-            </div>
             <ul id="transactionList"></ul>
         </div>
     </div>
-    <script src="js/validators.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
