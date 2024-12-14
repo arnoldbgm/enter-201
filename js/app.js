@@ -1,5 +1,5 @@
 // Arreglo para almacenar las transacciones
-let transacciones = [];
+let transacciones = new Budget();
 
 // Elementos del DOM
 const form = document.getElementById("transactionForm");
@@ -7,22 +7,27 @@ const lista = document.getElementById("transactionList");
 const balanceElement = document.getElementById("balance");
 const montoInput = document.getElementById("monto");
 
+// UI => User Interface => Interface de Usuario
 // Actualiza el balance y la lista de transacciones
 function actualizarUI() {
    // Calcular balance
-   const balance = transacciones.reduce((total, t) =>
-      t.tipo === "ingreso" ? total + t.monto : total - t.monto, 0
-   );
-   balanceElement.textContent = `$${balance.toFixed(2)}`;
+   // const balance = transacciones.reduce((total, t) =>
+   //    t.tipo === "ingreso" ? total + t.monto : total - t.monto, 0
+   // );
+   // balanceElement.textContent = `$${balance.toFixed(2)}`;
 
-   transacciones.forEach((transaccion) => {
+   // Limpiar la lista antes de renderizar
+   lista.innerHTML = "";
+
+   // Renderizar las transacciones
+   transacciones.budget.forEach((transaccion) => {
       // Crear el elemento de la lista
       const li = document.createElement("li");
-      li.className = `transaction-item ${transaccion.tipo}`;
+      li.className = `transaction-item ${transaccion.type}`;
       li.innerHTML = `
-		<span>${transaccion.fecha.toLocaleDateString()}</span>
-		<span>${transaccion.tipo === "ingreso" ? "+" : "-"}$${transaccion.monto.toFixed(2)}</span>
-	`;
+      <span>${transaccion.getFormattedDate()}</span>
+      <span>${transaccion.type === "ingreso" ? "+" : "-"}$${transaccion.formatAmount()}</span>
+   `;
       lista.appendChild(li);
    });
 }
@@ -40,11 +45,10 @@ form.addEventListener("submit", (e) => {
       return;
    }
    // Agregar transacción y actualizar UI
-   transacciones.push({
-      tipo,
-      monto,
-      fecha: new Date()
-   });
+   transacciones.add(new Transaction(tipo, monto));
+
+   console.log(transacciones)
+
    actualizarUI();
    form.reset(); // Limpiar formulario
 });
